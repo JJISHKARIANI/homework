@@ -1,12 +1,7 @@
-Cart_total = input("Enter a Cart Total: ")
-is_vip = input("Are you a Vip?: ")
-P_code = input("Enter a  promo code: ")
-is_guest = input("Are you a guest?: ") 
-Promo_Code = "SAVE10"
+n = int(input("Enter a postive integer: "))
+total_sum = 0
 
+for i  in range(2, n + 1, 2):
+    total_sum += i
 
-if Cart_total >= "50" or is_vip:
-    print("You got a free shipping")
-
-if Promo_Code !="" and not is_guest == "yes":
-    print("You got 10% discount")
+print(f"The sum of even numbers from 1 to {n} is: {total_sum}")
