@@ -1,0 +1,15 @@
+try:
+    birth_year = int(input("Enter your birth year: "))
+    current_year = 2026
+    age = current_year - birth_year
+   
+
+    print(f"Your age is {age}")
+
+except ValueError:
+    print("Please enter only digits")
+
+
+
+
+    
