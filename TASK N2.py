@@ -1,16 +1,29 @@
-try:
-    age = int(input("Enter your age: "))
+student ={
+    "name": "ana",
+    "contact":{
+        "email": "ana@gmail.com",
+        "phone": "111-222-333"
+    },
+    "course":{
+        "python":{
+            "passed": True,
+            "score": 100,
+        },
+         "web":{
+             "passed": False,
+             "score": 40
+         }
+    }
+}
+   
 
-    
-    if age < 0:
-        raise ValueError("Age cannot be negative")
-        
-    elif age < 18:
-       raise ValueError("The user must be atleast  18 years old to register")
-
-except ValueError as e:
-    print(e)
 
 
-finally:
-    print("Registration process completed")            
+
+print("ana's email:", student["contact"]["email"])
+print("python score:", student["course"]["python"]["score"])
+student["course"]["web"]["passed"] = True
+student["course"]["web"]["score"] = 65
+print(student)
+del student["contact"]["phone"]
+

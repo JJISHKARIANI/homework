@@ -1,10 +1,6 @@
-try:
-    price = float(input("Enter a price: "))
-    quantity = int(input("Enter a quantity: "))
-    total = price * quantity
-
-except ValueError:
-    print("Error: Both price and quantity must be valid numbers!")  
-
-else:
-    print(f"The total price is {total} GEL")
+frontend_skills = {"HTML", "CSS", "JavaScript", "React"} 
+backend_skills = {"Python", "JavaScript", "SQL", "React"}
+print(frontend_skills.difference(backend_skills))
+print(frontend_skills.union(backend_skills))
+print(frontend_skills.symmetric_difference(backend_skills))
+print(frontend_skills.intersection(backend_skills))
