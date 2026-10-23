@@ -16,10 +16,10 @@ class SmartDevice:
             
 
 class Smartlight(SmartDevice):
-    def __init__(self, brand, brightness=50):
-        self.brand = brand
+    def __init__(self, brand, brightness):
+        super().__init__(brand)
         self.brightness = brightness
-
+    
     def turn_on(self):
         super().turn_on()
         print(f"brand: {self.brand}, brightness: {self.brightness} is on")
