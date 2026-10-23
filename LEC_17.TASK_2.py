@@ -6,26 +6,34 @@ class Payment:
 
 
 class CreditCardPayment(Payment):
-    def __init__(self,amount):
-        self.amount = amount
-
-    def process_payment(self):    
-        print(f"with credit card you paid {self.amount} GEL")
+    def process_payment(self, amount):
+        super().process_payment(amount)
+        print(f"With Credit Card: Its paid {self.amount} GEL ")
 
 
 class PayPalPayment(Payment):
-    def __init__(self,amount):
-        self.amount = amount
-    def process_payment(self):
-        print(f"With PayPal card you paid {self.amount} GEL")    
+    def process_payment(self, amount):
+        super().process_payment(amount)        
+        print(f"With Paypal: Its paid {self.amount} GEL")
+
+    
+
+
+
+
+
+
+
+
+
 
 
 
 result = Payment()
-result.process_payment(300)
 
-card_pay = CreditCardPayment(100)
-card_pay.process_payment()
-paypal_pay = PayPalPayment(200)
-paypal_pay.process_payment()
+
+card_pay = CreditCardPayment()
+card_pay.process_payment(100)
+paypal_pay = PayPalPayment()
+paypal_pay.process_payment(200)
     
