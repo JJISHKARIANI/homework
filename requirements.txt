@@ -1,9 +1,5 @@
-ast_serialize==0.12.1
-colorama==0.4.6
-Faker==40.43.0
-librt==0.16.0
-mypy==2.4.0
-mypy_extensions==1.1.0
-pathspec==1.1.1
-typing_extensions==4.16.0
-tzdata==2026.5
+certifi==2026.10.23
+charset-normalizer==3.5.2
+idna==3.20
+requests==2.34.2
+urllib3==2.8.0
