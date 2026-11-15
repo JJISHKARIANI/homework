@@ -1,63 +1,101 @@
-from stud_managment import StudentManagemnt
-from student import Student
+import requests
+from models import Joke
+from storage import Storage
+
+def fetch_joke_from_api(category="Any"):
+    url = f"https://v2.jokeapi.dev/joke/{category}"
+
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+
+        if data.get("error"):
+            print("Joke not found") 
+            return None
+
+        category = data.get("category")
+        joke_type = data.get("type")
+
+        if joke_type == "single":
+            return Joke(category, joke_type, joke=data.get("joke"))
+        else:
+            return Joke(category, joke_type, setup=data.get("setup"), delivery=data.get("delivery"))
+    
+    except requests.exceptions.ConnectionError:
+        print("[error]: Internet connection failed")
+        return None
+    
+    except Exception as e:
+        print(f"[error]: {e}")
 
 def main():
-    manager = StudentManagemnt()
     while True:
-        print("Students (system)")
-        print("1. add student ")
-        print("2. search student with id ")
-        print("3. update student information ")
-        print("4. delete a student ")
-        print("5. list of the all student ")
-        print("6. exit ")
+        print("\n=== Joke Collection ===")
+        print("1. New Joke Generator")
+        print("2. List of Generated Jokes")
+        print("3. Delete Joke From List")
+        print("4. Exit")
 
-        choice = input("choose a option (1-6): ").strip()
+        choice = input("Enter a Number (option) 1 - 4: ").strip()
+        
+        if choice == "1":
+            print("Categories: Programming, Misc, Dark, Pun, Spooky, Christmas or Any")
+            user_category = input("Enter a Category or leave it blank for Any: ").strip().capitalize()
 
-        try:
-            if choice == '1':
-                name = input("enter a name: ")
-                roll_number = int(input("enter a id number (int): "))
-                grade = float(input("enter a grade (float): "))
-                manager.add_student(name, roll_number, grade)
+            if not user_category:
+                user_category = "Any"
 
-            elif choice == '2':
-                roll_number = int(input("enter id of student: "))
-                student = manager.search_student(roll_number)
-                print(f"found {student}")
+            joke = fetch_joke_from_api(user_category)
+            if joke:
+                print("Joke has been collected:")
+                joke.display()
 
-            elif choice == '3':
-                roll_number = int(input("update: enter a student (id): "))
-                new_name = input("new name (leave a space if u not changing it): ").strip()
-                new_grade_str = input("new grade (leave space if u not changing it): ").strip()
+                save_choice = input("Do you want to save this joke? (y/n): ").strip().lower()
+                if save_choice == "y":
+                    Storage.add_joke(joke)
+                    print("Joke saved successfully!")   
 
-                name_arg = new_name if new_name else None
-                grade_arg = float(new_grade_str) if new_grade_str else None
-
-                manager.update_student(roll_number, new_name=name_arg, new_grade=grade_arg)
-
-            elif choice == '4':
-                roll_number = int(input("delete - enter a student(id) : "))
-                manager.delete_student(roll_number)
-
-            elif choice == '5':
-                manager.display_all_student()
-
-            elif choice == '6':
-                print("programm done. goodbye")
-                break
+        elif choice == "2":
+            jokes = Storage.load_joke()
+            if not jokes:
+                print("There are no jokes in the list.") 
             else:
-                print("incorrect.number must be (1 - 6)")
+                print("\n--- Saved Jokes ---")
+                for i in range(len(jokes)):
+                    joke = jokes[i]
+                    print(f"\n[{i}] Category: {joke.category}")            
+                    joke.display()
 
-        except ValueError as e:
-            print(f"[error]")
-        except KeyError as e:
-            print(f"[searching error]")
-        except Exception as e:
-            print(f"[unexcpected error]")
+        elif choice == "3":
+            jokes = Storage.load_joke()
+            if not jokes:
+                print("There are no jokes to delete.")
+                continue
 
-if __name__ == "_main_":
+            print("\n--- Jokes List ---")
+            for i in range(len(jokes)):
+                joke = jokes[i]
+                print(f"\n--- Joke #{i} (Category: {joke.category}) ---") 
+                joke.display()
+                
+            try:
+                idx = int(input("\nEnter the number of the joke to delete: "))
+                success = Storage.delete_joke(idx)       
+                if success:
+                    print("Joke deleted successfully!") 
+                else:
+                    print("Error: No joke with that index.")
+
+            except ValueError:
+                print("Error: Please enter a valid integer.")  
+
+        elif choice == "4":
+            print("Goodbye!")
+            break                     
+
+        else:
+            print("Incorrect choice, Try again.")
+
+if __name__ == "__main__":
     main()
-
-res = main()
-print(res)
