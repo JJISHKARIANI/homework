@@ -6,7 +6,7 @@ class StudentManagemnt:
 
     def add_student(self, name: str, roll_number: int, grade: float) -> None:
         if roll_number in self.__student:
-            raise ValueError('stu is in list')
+            raise ValueError('student is in list')
         
         student = Student(name, roll_number, grade)
         self.__student[roll_number] = student
@@ -29,14 +29,14 @@ class StudentManagemnt:
 
     def delete_student(self, roll_number: int) -> None:
         if roll_number not in self.__student:
-            raise ValueError("stud not in list")
+            raise ValueError("student not in list")
         
         del self.__student[roll_number]
-        print(f"{roll_number} student deleted")
+        print(f"# {roll_number} student deleted")
 
     def display_all_student(self) -> None:
         if not self.__student:
-            print('there is no sruds')
+            print('there is no students')
             return
 
         for student in self.__student.values():

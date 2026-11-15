@@ -25,7 +25,7 @@ class Student:
     @grade.setter
     def grade(self, value: float):
         if not (0.0 <= value <= 100.0):
-            raise ValueError("a grade must be number from 0.0 to 100.0")
+            raise ValueError(" grade must be number from 0.0 to 100.0")
         self._grade = value
 
     def __repr__(self) -> str:
